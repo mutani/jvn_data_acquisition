@@ -8,6 +8,14 @@ def get_jvn_info(keyword, date, url):
         'http': '',
         'https': '',
     }
+    #プロキシ設定をtxtから読み込む
+    with open('proxies.txt', 'r') as f:
+        #http=を除去して代入
+        proxies['http'] = f.readline().replace('http=', '').rstrip('\n')
+        proxies['https'] = f.readline().replace('https=', '').rstrip('\n')
+        proxieUser = f.readline().replace('user=', '').rstrip('\n')
+        proxiePass = f.readline().replace('pass=', '').rstrip('\n')
+
     #戻り値の初期化
     jvmDataList = []
     #リクエスト送信

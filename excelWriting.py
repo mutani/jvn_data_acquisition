@@ -24,6 +24,10 @@ def doExcelWriting(keywordList, dateStr):
         sheet = wb[keywordList[i][0][0]]
         jvmDataList = keywordList[i][2]
         
+        if jvmDataList[0][0] != 0:
+            #jvmDataList[][][5]の日付の新しい順でソートを行う
+            jvmDataList[0].sort(key=lambda x: x[5], reverse=True)
+
         # JVN情報を書き込む
         for j in range(len(jvmDataList[0])):
             if jvmDataList[0][0] == 0:

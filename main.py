@@ -22,7 +22,12 @@ keywordList = []
 with open('keywordList.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
     for keyword in reader:
-        jvmDataList = getJvmData.get_jvn_info(keyword[1], date, keyword[2])
+        try:
+            jvmDataList = getJvmData.get_jvn_info(keyword[1], date, keyword[2])
+        except Exception as e:
+            print(e + '接続エラーが発生しました。')
+            mb.showinfo('通知', '接続エラーが発生しました。')
+            exit()
         if jvmDataList == -1:
             print('HTTPエラーが発生しました。')
             mb.showinfo('通知', 'HTTPエラーが発生しました。')
