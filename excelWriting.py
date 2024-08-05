@@ -3,20 +3,15 @@ import csv
 from datetime import datetime, timedelta
 
 def doExcelWriting(keywordList, dateStr):
-    # Convert date string to datetime object
     date = datetime.strptime(dateStr, '%Y%m%d')
-    #dateが”その月”の何週目かを計算しstr型に変換
     week = str((date.day - 1) // 7 + 1)
-    # Subtract 7 days from the date
     fileName = 'output/' + week + 'W_' + '脆弱性確認' + '(' + dateStr + ')'
     date -= timedelta(days=7)
-    
     
     # jvmDataListをJVN情報.xlsxに書き込む
     from openpyxl import load_workbook
     wb = load_workbook('脆弱性確認ひな形.xlsx')
 
-    #sheetname変数を初期化
     sheetname = ''
     rowCounter = 0
     # 検索キーワードの数だけループ
@@ -25,7 +20,6 @@ def doExcelWriting(keywordList, dateStr):
         jvmDataList = keywordList[i][2]
         
         if jvmDataList[0][0] != 0:
-            #jvmDataList[][][5]の日付の新しい順でソートを行う
             jvmDataList[0].sort(key=lambda x: x[5], reverse=True)
 
         # JVN情報を書き込む
@@ -38,7 +32,6 @@ def doExcelWriting(keywordList, dateStr):
                 for k in range(6):
                     sheet.cell(row=j+14+rowCounter, column=k+4, value=jvmDataList[0][j][k])
                     if k == 4 or k == 5:
-                        #jvmDataList[0][j][k]がStr型であるため、datetime型に変換
                         jvmdt = datetime.strptime(jvmDataList[0][j][k], '%Y/%m/%d')
                         #jvmdtとdateの差分を計算し７日以内のデータを検知した場合
                         if (date - jvmdt).days <= 7:
@@ -46,7 +39,6 @@ def doExcelWriting(keywordList, dateStr):
                             with open(fileName + '.csv', 'a', newline='', encoding='utf-8') as f:
                                 writer = csv.writer(f)
                                 writer.writerow([jvmDataList[0][j][0], jvmDataList[0][j][1], jvmDataList[0][j][2], jvmDataList[0][j][3], jvmDataList[0][j][4], jvmDataList[0][j][5]])
-            # jが99になったらbreak
             if j == 99:
                 break
 
