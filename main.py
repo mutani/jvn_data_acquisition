@@ -5,16 +5,13 @@ import tkinter.messagebox as mb
 import tkinter.simpledialog as sd
 import datetime
 
-#現在日付をYYYYMMDDで取得してStr型に変換
 nowdate = datetime.datetime.now()
 nowdate = nowdate.strftime('%Y%m%d')
 
-# ポップアップウィンドウで日付を入力するがキャンセルボタンが押された場合終了する
 date = sd.askstring('', '基準日付を入力してください。', initialvalue=nowdate)
 if date == None:
     exit()
 
-# Rest of your code...
 #キーワードリストを格納するリスト
 keywordList = []
 
@@ -42,6 +39,5 @@ except Exception as e:
     mb.showinfo('通知', 'エラーが発生しました。')
     exit()
 
-#ポップアップメッセージを表示
 mb.showinfo('通知', '処理が終了しました。')
 
